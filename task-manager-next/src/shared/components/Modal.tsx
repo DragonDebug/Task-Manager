@@ -52,9 +52,13 @@ export function Modal({
         <div className="border-b border-[color:var(--border)]/90 bg-[linear-gradient(180deg,rgba(255,255,255,0.035),rgba(255,255,255,0.01))] px-5 py-4 md:px-6">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
-              <h2 className="text-lg font-semibold tracking-[0.01em] md:text-xl">{title}</h2>
+              <h2 className="text-lg font-semibold tracking-[0.01em] md:text-xl">
+                {title}
+              </h2>
               {description ? (
-                <p className="max-w-2xl text-sm leading-6 text-[var(--text-muted)]">{description}</p>
+                <p className="max-w-2xl text-sm leading-6 text-[var(--text-muted)]">
+                  {description}
+                </p>
               ) : null}
             </div>
             <button
@@ -70,7 +74,11 @@ export function Modal({
 
         <div className="overflow-y-auto px-5 py-5 md:px-6">{children}</div>
 
-        {footer ? <div className="border-t border-[color:var(--border)]/90 px-5 py-4 md:px-6">{footer}</div> : null}
+        {footer ? (
+          <div className="border-t border-[color:var(--border)]/90 px-5 py-4 md:px-6">
+            {footer}
+          </div>
+        ) : null}
       </div>
     </div>
   );

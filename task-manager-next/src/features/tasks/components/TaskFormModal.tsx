@@ -22,7 +22,13 @@ type TaskFormModalProps = {
 const inputClassName =
   "min-h-10 w-full rounded-[10px] border border-[color:var(--border)] bg-[linear-gradient(180deg,var(--field-bg-strong),var(--field-bg))] px-3 text-[13px] text-[var(--text)] outline-none shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-[3px] focus:ring-[var(--focus-ring)]";
 
-export function TaskFormModal({ open, task, error, onClose, onSubmit }: TaskFormModalProps) {
+export function TaskFormModal({
+  open,
+  task,
+  error,
+  onClose,
+  onSubmit,
+}: TaskFormModalProps) {
   const [draft, setDraft] = useState<TaskDraft>(() =>
     task
       ? sanitizeTaskDraft({
@@ -75,42 +81,61 @@ export function TaskFormModal({ open, task, error, onClose, onSubmit }: TaskForm
         }}
       >
         <label className="space-y-2 md:col-span-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Title</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Title
+          </span>
           <input
             className={inputClassName}
             value={draft.title}
             maxLength={140}
             placeholder="What needs to happen?"
-            onChange={(event) => setDraft((currentDraft) => ({ ...currentDraft, title: event.target.value }))}
+            onChange={(event) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                title: event.target.value,
+              }))
+            }
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Category</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Category
+          </span>
           <input
             className={inputClassName}
             value={draft.category}
             placeholder="General"
             onChange={(event) =>
-              setDraft((currentDraft) => ({ ...currentDraft, category: event.target.value }))
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                category: event.target.value,
+              }))
             }
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Project</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Project
+          </span>
           <input
             className={inputClassName}
             value={draft.project}
             placeholder="Optional project name"
             onChange={(event) =>
-              setDraft((currentDraft) => ({ ...currentDraft, project: event.target.value }))
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                project: event.target.value,
+              }))
             }
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Priority</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Priority
+          </span>
           <select
             className={inputClassName}
             value={draft.priority}
@@ -130,7 +155,9 @@ export function TaskFormModal({ open, task, error, onClose, onSubmit }: TaskForm
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Status</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Status
+          </span>
           <select
             className={inputClassName}
             value={draft.status}
@@ -150,48 +177,70 @@ export function TaskFormModal({ open, task, error, onClose, onSubmit }: TaskForm
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Sender</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Sender
+          </span>
           <input
             className={inputClassName}
             value={draft.sender}
             placeholder="Optional sender or owner"
             onChange={(event) =>
-              setDraft((currentDraft) => ({ ...currentDraft, sender: event.target.value }))
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                sender: event.target.value,
+              }))
             }
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Due date</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Due date
+          </span>
           <input
             className={inputClassName}
             type="date"
             value={draft.dueDate}
             onChange={(event) =>
-              setDraft((currentDraft) => ({ ...currentDraft, dueDate: event.target.value }))
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                dueDate: event.target.value,
+              }))
             }
           />
         </label>
 
         <label className="space-y-2 md:col-span-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Description</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Description
+          </span>
           <textarea
             className={`${inputClassName} min-h-32 resize-y py-3`}
             value={draft.description}
             placeholder="Add the context behind this task."
             onChange={(event) =>
-              setDraft((currentDraft) => ({ ...currentDraft, description: event.target.value }))
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                description: event.target.value,
+              }))
             }
           />
         </label>
 
         <label className="space-y-2 md:col-span-2">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Notes</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+            Notes
+          </span>
           <textarea
             className={`${inputClassName} min-h-28 resize-y py-3`}
             value={draft.notes}
             placeholder="Capture follow-ups, reminders, or references."
-            onChange={(event) => setDraft((currentDraft) => ({ ...currentDraft, notes: event.target.value }))}
+            onChange={(event) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                notes: event.target.value,
+              }))
+            }
           />
         </label>
 

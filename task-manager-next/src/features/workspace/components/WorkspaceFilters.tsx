@@ -4,7 +4,14 @@ import {
   SORT_MODE_LABELS,
   VIEW_MODE_LABELS,
 } from "@/features/tasks/lib/task-constants";
-import { TASK_PRIORITIES, TASK_STATUSES, TASK_VIEW_MODES, type TaskFilters, type TaskSortMode, type TaskViewMode } from "@/features/tasks/types/task";
+import {
+  TASK_PRIORITIES,
+  TASK_STATUSES,
+  TASK_VIEW_MODES,
+  type TaskFilters,
+  type TaskSortMode,
+  type TaskViewMode,
+} from "@/features/tasks/types/task";
 
 type WorkspaceFiltersProps = {
   categories: string[];
@@ -23,9 +30,12 @@ const fieldClassName =
   "min-h-9 min-w-0 rounded-[10px] border border-[color:var(--border)] bg-[linear-gradient(180deg,var(--field-bg-strong),var(--field-bg))] px-3 text-[12px] text-[var(--text)] outline-none shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:ring-[3px] focus:ring-[var(--focus-ring)]";
 
 const viewModeAccentClasses: Record<TaskViewMode, string> = {
-  default: "border-[color:color-mix(in_srgb,var(--accent)_30%,var(--border))] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--accent)_14%,var(--surface2)),color-mix(in_srgb,var(--accent)_7%,var(--surface)))] text-[color:color-mix(in_srgb,var(--text)_80%,var(--accent)_20%)]",
-  compact: "border-[rgba(20,184,166,0.32)] bg-[linear-gradient(180deg,rgba(20,184,166,0.16),rgba(20,184,166,0.08))] text-[color:color-mix(in_srgb,var(--text)_86%,#14b8a6_14%)]",
-  table: "border-[rgba(245,158,11,0.32)] bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(245,158,11,0.08))] text-[color:color-mix(in_srgb,var(--text)_86%,#f59e0b_14%)]",
+  default:
+    "border-[color:color-mix(in_srgb,var(--accent)_30%,var(--border))] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--accent)_14%,var(--surface2)),color-mix(in_srgb,var(--accent)_7%,var(--surface)))] text-[color:color-mix(in_srgb,var(--text)_80%,var(--accent)_20%)]",
+  compact:
+    "border-[rgba(20,184,166,0.32)] bg-[linear-gradient(180deg,rgba(20,184,166,0.16),rgba(20,184,166,0.08))] text-[color:color-mix(in_srgb,var(--text)_86%,#14b8a6_14%)]",
+  table:
+    "border-[rgba(245,158,11,0.32)] bg-[linear-gradient(180deg,rgba(245,158,11,0.16),rgba(245,158,11,0.08))] text-[color:color-mix(in_srgb,var(--text)_86%,#f59e0b_14%)]",
 };
 
 function formatOptionLabel(value: string) {
@@ -58,13 +68,17 @@ export function WorkspaceFilters({
             className={`${fieldClassName} flex-[1_1_320px]`}
             value={filters.search}
             placeholder="Search title, owner, description, notes, or project"
-            onChange={(event) => onFiltersChange({ search: event.target.value })}
+            onChange={(event) =>
+              onFiltersChange({ search: event.target.value })
+            }
           />
 
           <select
             className={`${fieldClassName} xl:basis-[150px]`}
             value={filters.category}
-            onChange={(event) => onFiltersChange({ category: event.target.value })}
+            onChange={(event) =>
+              onFiltersChange({ category: event.target.value })
+            }
           >
             <option value="">All categories</option>
             {categories.map((category) => (
@@ -77,7 +91,9 @@ export function WorkspaceFilters({
           <select
             className={`${fieldClassName} xl:basis-[150px]`}
             value={filters.priority}
-            onChange={(event) => onFiltersChange({ priority: event.target.value })}
+            onChange={(event) =>
+              onFiltersChange({ priority: event.target.value })
+            }
           >
             <option value="">All priorities</option>
             {TASK_PRIORITIES.map((priority) => (
@@ -90,7 +106,9 @@ export function WorkspaceFilters({
           <select
             className={`${fieldClassName} xl:basis-[150px]`}
             value={filters.status}
-            onChange={(event) => onFiltersChange({ status: event.target.value })}
+            onChange={(event) =>
+              onFiltersChange({ status: event.target.value })
+            }
           >
             <option value="">All statuses</option>
             {TASK_STATUSES.map((status) => (
@@ -103,7 +121,9 @@ export function WorkspaceFilters({
           <select
             className={`${fieldClassName} xl:basis-[150px]`}
             value={sortMode}
-            onChange={(event) => onSortModeChange(event.target.value as TaskSortMode)}
+            onChange={(event) =>
+              onSortModeChange(event.target.value as TaskSortMode)
+            }
           >
             {Object.entries(SORT_MODE_LABELS).map(([value, label]) => (
               <option key={value} value={value}>

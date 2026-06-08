@@ -69,14 +69,21 @@ export function TaskManagerWorkspace() {
           <section className="flex min-h-[32rem] flex-col overflow-hidden rounded-[28px] border border-[color:var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.018))] shadow-[var(--shadow-panel)] backdrop-blur-[16px] xl:min-h-0 xl:sticky xl:top-[118px]">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--border)] px-5 py-4">
               <div className="min-w-0">
-                <div className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">Focused Workspace</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-muted)]">
+                  Focused Workspace
+                </div>
                 <p className="mt-1 text-[13px] text-[var(--text-muted)]">
-                  {visibleTasks.length} visible task{visibleTasks.length === 1 ? "" : "s"} in the current view.
+                  {visibleTasks.length} visible task
+                  {visibleTasks.length === 1 ? "" : "s"} in the current view.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.05em] text-[var(--text-muted)]">
                 <span className="rounded-full border border-[color:var(--border)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5">
-                  {viewMode === "table" ? "Table" : viewMode === "compact" ? "Compact" : "Cards"}
+                  {viewMode === "table"
+                    ? "Table"
+                    : viewMode === "compact"
+                      ? "Compact"
+                      : "Cards"}
                 </span>
                 <span className="rounded-full border border-[color:rgba(91,125,255,0.24)] bg-[rgba(91,125,255,0.1)] px-3 py-1.5 text-[color:color-mix(in_srgb,var(--text)_76%,var(--accent)_24%)]">
                   {selectedTask ? "1 selected" : "Select a task"}

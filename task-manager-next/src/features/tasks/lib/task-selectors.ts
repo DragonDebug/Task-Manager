@@ -126,7 +126,10 @@ export function formatDueState(task: Task): string {
   return "On track";
 }
 
-export function normalizeStoredTask(candidate: unknown, fallbackIndex: number): Task | null {
+export function normalizeStoredTask(
+  candidate: unknown,
+  fallbackIndex: number,
+): Task | null {
   if (!isRecord(candidate)) {
     return null;
   }
@@ -218,7 +221,9 @@ export function getVisibleTasks(
     }
 
     if (sortMode === "priority") {
-      return PRIORITY_ORDER[leftTask.priority] - PRIORITY_ORDER[rightTask.priority];
+      return (
+        PRIORITY_ORDER[leftTask.priority] - PRIORITY_ORDER[rightTask.priority]
+      );
     }
 
     if (sortMode === "due-date") {
@@ -272,5 +277,7 @@ export function getTaskStats(tasks: Task[]): TaskStats {
 }
 
 export function getTaskCategories(tasks: Task[]): string[] {
-  return [...new Set(tasks.map((task) => task.category).filter(Boolean))].sort();
+  return [
+    ...new Set(tasks.map((task) => task.category).filter(Boolean)),
+  ].sort();
 }

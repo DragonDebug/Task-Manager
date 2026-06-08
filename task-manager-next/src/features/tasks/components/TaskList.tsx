@@ -31,9 +31,11 @@ const priorityRailClassNames = {
 } as const;
 
 const dueToneClassNames = {
-  overdue: "border-[rgba(249,115,22,0.3)] bg-[rgba(249,115,22,0.12)] text-[var(--high)]",
+  overdue:
+    "border-[rgba(249,115,22,0.3)] bg-[rgba(249,115,22,0.12)] text-[var(--high)]",
   soon: "border-[rgba(245,158,11,0.28)] bg-[rgba(245,158,11,0.12)] text-[color:#d97706] dark:text-[color:#fbbf24]",
-  stable: "border-[rgba(20,184,166,0.26)] bg-[rgba(20,184,166,0.12)] text-[color:#0f766e] dark:text-[color:#5eead4]",
+  stable:
+    "border-[rgba(20,184,166,0.26)] bg-[rgba(20,184,166,0.12)] text-[color:#0f766e] dark:text-[color:#5eead4]",
   none: "border-[color:var(--border)] bg-[rgba(255,255,255,0.04)] text-[var(--text-muted)]",
   done: "border-[rgba(16,185,129,0.22)] bg-[rgba(16,185,129,0.12)] text-[color:#047857] dark:text-[color:#86efac]",
 } as const;
@@ -54,7 +56,11 @@ function TaskStatusButton({
         event.stopPropagation();
         onUpdateTaskStatus(task.id, nextStatus);
       }}
-      aria-label={task.status === "done" ? `Reopen ${task.title}` : `Mark ${task.title} done`}
+      aria-label={
+        task.status === "done"
+          ? `Reopen ${task.title}`
+          : `Mark ${task.title} done`
+      }
       className={`inline-flex min-h-10 items-center justify-center rounded-[12px] border px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.06em] transition ${
         task.status === "done"
           ? "border-[rgba(16,185,129,0.22)] bg-[rgba(16,185,129,0.12)] text-[color:#047857] hover:bg-[rgba(16,185,129,0.16)] dark:text-[color:#86efac]"
@@ -82,9 +88,12 @@ export function TaskList({
   if (!tasks.length) {
     return (
       <div className="flex min-h-80 flex-col items-center justify-center rounded-[16px] border border-dashed border-[color:var(--border)] bg-[rgba(255,255,255,0.02)] px-6 text-center">
-        <p className="text-lg font-semibold">No tasks match the current view.</p>
+        <p className="text-lg font-semibold">
+          No tasks match the current view.
+        </p>
         <p className="mt-2 max-w-md text-sm leading-6 text-[var(--text-muted)]">
-          Change the filters, switch view mode, or create a new task to populate the workspace.
+          Change the filters, switch view mode, or create a new task to populate
+          the workspace.
         </p>
       </div>
     );
@@ -111,26 +120,40 @@ export function TaskList({
                 <tr
                   key={task.id}
                   className={`cursor-pointer rounded-2xl transition ${
-                    isSelected ? "bg-[var(--accent-soft)]" : "hover:bg-[rgba(255,255,255,0.03)]"
+                    isSelected
+                      ? "bg-[var(--accent-soft)]"
+                      : "hover:bg-[rgba(255,255,255,0.03)]"
                   }`}
                   onClick={() => onSelectTask(task.id)}
                 >
                   <td className="border-t border-[color:var(--border)] px-4 py-4 align-top first:border-t-0">
                     <div className="space-y-1">
-                      <div className={`font-semibold ${task.status === "done" ? "text-[var(--text-muted)] line-through" : "text-[var(--text)]"}`}>{task.title}</div>
+                      <div
+                        className={`font-semibold ${task.status === "done" ? "text-[var(--text-muted)] line-through" : "text-[var(--text)]"}`}
+                      >
+                        {task.title}
+                      </div>
                       <div className="line-clamp-2 text-xs leading-5 text-[var(--text-muted)]">
-                        {task.description || task.notes || "No additional detail yet."}
+                        {task.description ||
+                          task.notes ||
+                          "No additional detail yet."}
                       </div>
                     </div>
                   </td>
-                  <td className="border-t border-[color:var(--border)] px-4 py-4 align-top text-[var(--text-muted)]">{task.category}</td>
+                  <td className="border-t border-[color:var(--border)] px-4 py-4 align-top text-[var(--text-muted)]">
+                    {task.category}
+                  </td>
                   <td className="border-t border-[color:var(--border)] px-4 py-4 align-top">
-                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${PRIORITY_TONE_CLASSNAMES[task.priority]}`}>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${PRIORITY_TONE_CLASSNAMES[task.priority]}`}
+                    >
                       {PRIORITY_LABELS[task.priority]}
                     </span>
                   </td>
                   <td className="border-t border-[color:var(--border)] px-4 py-4 align-top">
-                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUS_TONE_CLASSNAMES[task.status]}`}>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${STATUS_TONE_CLASSNAMES[task.status]}`}
+                    >
                       {STATUS_LABELS[task.status]}
                     </span>
                   </td>
@@ -157,24 +180,23 @@ export function TaskList({
       {tasks.map((task) => {
         const isSelected = task.id === selectedTaskId;
         const dueState = formatDueState(task);
-        const dueToneClassName = task.status === "done"
-          ? dueToneClassNames.done
-          : !task.dueDate
-            ? dueToneClassNames.none
-            : isTaskOverdue(task)
-              ? dueToneClassNames.overdue
-              : dueState === "Due soon"
-                ? dueToneClassNames.soon
-                : dueToneClassNames.stable;
+        const dueToneClassName =
+          task.status === "done"
+            ? dueToneClassNames.done
+            : !task.dueDate
+              ? dueToneClassNames.none
+              : isTaskOverdue(task)
+                ? dueToneClassNames.overdue
+                : dueState === "Due soon"
+                  ? dueToneClassNames.soon
+                  : dueToneClassNames.stable;
 
         return (
           <article
             key={task.id}
             className={`group relative isolate overflow-hidden rounded-[24px] border px-4 transition before:absolute before:bottom-5 before:left-4 before:top-5 before:w-1 before:rounded-full ${
               priorityRailClassNames[task.priority]
-            } ${
-              viewMode === "compact" ? "py-4" : "py-5"
-            } ${
+            } ${viewMode === "compact" ? "py-4" : "py-5"} ${
               isSelected
                 ? "border-[color:color-mix(in_srgb,var(--accent)_55%,var(--border))] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] shadow-[0_18px_50px_rgba(15,23,42,0.16)] ring-1 ring-[rgba(91,125,255,0.28)]"
                 : "border-[color:var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.018))] hover:-translate-y-[2px] hover:border-[color:color-mix(in_srgb,var(--accent)_38%,var(--border))] hover:shadow-[0_18px_40px_rgba(15,23,42,0.12)]"
@@ -186,10 +208,14 @@ export function TaskList({
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${STATUS_TONE_CLASSNAMES[task.status]}`}>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${STATUS_TONE_CLASSNAMES[task.status]}`}
+                    >
                       {STATUS_LABELS[task.status]}
                     </span>
-                    <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${dueToneClassName}`}>
+                    <span
+                      className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${dueToneClassName}`}
+                    >
                       {dueState}
                     </span>
                     <span className="rounded-full border border-[color:var(--border)] bg-[rgba(255,255,255,0.04)] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">
@@ -220,7 +246,9 @@ export function TaskList({
                 </button>
               </div>
 
-              <p className={`max-w-[56ch] text-[13px] leading-6 text-[var(--text-muted)] ${viewMode === "compact" ? "line-clamp-2" : "line-clamp-3"}`}>
+              <p
+                className={`max-w-[56ch] text-[13px] leading-6 text-[var(--text-muted)] ${viewMode === "compact" ? "line-clamp-2" : "line-clamp-3"}`}
+              >
                 {task.description || task.notes || "No additional detail yet."}
               </p>
 
@@ -238,7 +266,9 @@ export function TaskList({
                     Priority
                   </div>
                   <div className="mt-1.5 flex items-center gap-2">
-                    <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${PRIORITY_TONE_CLASSNAMES[task.priority]}`}>
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] ${PRIORITY_TONE_CLASSNAMES[task.priority]}`}
+                    >
                       {PRIORITY_LABELS[task.priority]}
                     </span>
                     {task.project ? (
@@ -256,7 +286,10 @@ export function TaskList({
                   <span>{task.project || "No project"}</span>
                   <span>{formatTaskDate(task.updatedAt)}</span>
                 </div>
-                <TaskStatusButton task={task} onUpdateTaskStatus={onUpdateTaskStatus} />
+                <TaskStatusButton
+                  task={task}
+                  onUpdateTaskStatus={onUpdateTaskStatus}
+                />
               </div>
             </div>
           </article>

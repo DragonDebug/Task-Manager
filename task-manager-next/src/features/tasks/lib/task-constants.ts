@@ -55,17 +55,23 @@ export const STATUS_LABELS: Record<TaskStatus, string> = {
 };
 
 export const PRIORITY_TONE_CLASSNAMES: Record<TaskPriority, string> = {
-  critical: "bg-red-500/15 text-red-200 ring-1 ring-inset ring-red-400/25 dark:text-red-200",
+  critical:
+    "bg-red-500/15 text-red-200 ring-1 ring-inset ring-red-400/25 dark:text-red-200",
   high: "bg-orange-500/15 text-orange-200 ring-1 ring-inset ring-orange-400/25 dark:text-orange-200",
-  medium: "bg-amber-500/15 text-amber-200 ring-1 ring-inset ring-amber-400/25 dark:text-amber-200",
+  medium:
+    "bg-amber-500/15 text-amber-200 ring-1 ring-inset ring-amber-400/25 dark:text-amber-200",
   low: "bg-emerald-500/15 text-emerald-200 ring-1 ring-inset ring-emerald-400/25 dark:text-emerald-200",
-  "very-low": "bg-sky-500/15 text-sky-200 ring-1 ring-inset ring-sky-400/25 dark:text-sky-200",
+  "very-low":
+    "bg-sky-500/15 text-sky-200 ring-1 ring-inset ring-sky-400/25 dark:text-sky-200",
 };
 
 export const STATUS_TONE_CLASSNAMES: Record<TaskStatus, string> = {
-  "not-started": "bg-slate-500/15 text-slate-200 ring-1 ring-inset ring-slate-400/20 dark:text-slate-200",
-  ongoing: "bg-blue-500/15 text-blue-200 ring-1 ring-inset ring-blue-400/25 dark:text-blue-200",
-  waiting: "bg-orange-500/15 text-orange-200 ring-1 ring-inset ring-orange-400/25 dark:text-orange-200",
+  "not-started":
+    "bg-slate-500/15 text-slate-200 ring-1 ring-inset ring-slate-400/20 dark:text-slate-200",
+  ongoing:
+    "bg-blue-500/15 text-blue-200 ring-1 ring-inset ring-blue-400/25 dark:text-blue-200",
+  waiting:
+    "bg-orange-500/15 text-orange-200 ring-1 ring-inset ring-orange-400/25 dark:text-orange-200",
   done: "bg-emerald-500/15 text-emerald-200 ring-1 ring-inset ring-emerald-400/25 dark:text-emerald-200",
 };
 
@@ -89,7 +95,8 @@ export const SAMPLE_TASKS: Task[] = [
     title: "Rebuild the task workspace shell",
     description:
       "Set up the Next.js MVP shell with a sticky header, filters, task list, and detail panel.",
-    notes: "Keep the browser-only storage isolated so IndexedDB can be added later.",
+    notes:
+      "Keep the browser-only storage isolated so IndexedDB can be added later.",
     category: "Migration",
     project: "TaskManager Next",
     sender: "Template backlog",
@@ -119,7 +126,8 @@ export const SAMPLE_TASKS: Task[] = [
     title: "Stabilize persistence keys",
     description:
       "Reuse the main storage keys where the MVP fields align so the migration path stays predictable.",
-    notes: "The legacy app also stores theme, view mode, and sort mode in local browser storage.",
+    notes:
+      "The legacy app also stores theme, view mode, and sort mode in local browser storage.",
     category: "Persistence",
     project: "TaskManager Next",
     sender: "Migration plan",

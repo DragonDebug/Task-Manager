@@ -4,9 +4,12 @@ import type { TaskDraft } from "@/features/tasks/types/task";
 export function sanitizeTaskDraft(draft: Partial<TaskDraft>): TaskDraft {
   return {
     title: String(draft.title ?? DEFAULT_TASK_DRAFT.title).trim(),
-    description: String(draft.description ?? DEFAULT_TASK_DRAFT.description).trim(),
+    description: String(
+      draft.description ?? DEFAULT_TASK_DRAFT.description,
+    ).trim(),
     notes: String(draft.notes ?? DEFAULT_TASK_DRAFT.notes).trim(),
-    category: String(draft.category ?? DEFAULT_TASK_DRAFT.category).trim() || "General",
+    category:
+      String(draft.category ?? DEFAULT_TASK_DRAFT.category).trim() || "General",
     project: String(draft.project ?? DEFAULT_TASK_DRAFT.project).trim(),
     sender: String(draft.sender ?? DEFAULT_TASK_DRAFT.sender).trim(),
     priority: draft.priority ?? DEFAULT_TASK_DRAFT.priority,

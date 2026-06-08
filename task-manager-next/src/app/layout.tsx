@@ -34,7 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${manrope.variable} h-full`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} h-full`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>

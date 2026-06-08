@@ -27,10 +27,18 @@ import type {
   TaskSortMode,
   TaskViewMode,
 } from "@/features/tasks/types/task";
-import { getStoredJson, getStoredString, setStoredJson, setStoredString } from "@/shared/lib/local-storage";
+import {
+  getStoredJson,
+  getStoredString,
+  setStoredJson,
+  setStoredString,
+} from "@/shared/lib/local-storage";
 
 function createTaskId() {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return crypto.randomUUID();
   }
 
@@ -40,10 +48,16 @@ function createTaskId() {
 export function useTaskManager() {
   const [tasks, setTasks] = useState<Task[]>(SAMPLE_TASKS);
   const [filters, setFilters] = useState<TaskFilters>(DEFAULT_TASK_FILTERS);
-  const [viewMode, setViewMode] = useState<TaskViewMode>(DEFAULT_TASK_VIEW_MODE);
-  const [sortMode, setSortMode] = useState<TaskSortMode>(DEFAULT_TASK_SORT_MODE);
+  const [viewMode, setViewMode] = useState<TaskViewMode>(
+    DEFAULT_TASK_VIEW_MODE,
+  );
+  const [sortMode, setSortMode] = useState<TaskSortMode>(
+    DEFAULT_TASK_SORT_MODE,
+  );
   const [hideDone, setHideDone] = useState(DEFAULT_HIDE_DONE);
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(SAMPLE_TASKS[0]?.id ?? null);
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(
+    SAMPLE_TASKS[0]?.id ?? null,
+  );
   const [isReady, setIsReady] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -60,12 +74,18 @@ export function useTaskManager() {
   const categories = getTaskCategories(tasks);
   const editingTask = tasks.find((task) => task.id === editingTaskId) ?? null;
   const selectedTask =
-    visibleTasks.find((task) => task.id === selectedTaskId) ?? visibleTasks[0] ?? null;
+    visibleTasks.find((task) => task.id === selectedTaskId) ??
+    visibleTasks[0] ??
+    null;
 
   useEffect(() => {
     const initializationTimer = window.setTimeout(() => {
-      const storedTasks = restoreStoredTasks(getStoredJson<unknown>(TASK_STORAGE_KEYS.tasks));
-      const storedFilters = getStoredJson<TaskFilters>(TASK_STORAGE_KEYS.filters);
+      const storedTasks = restoreStoredTasks(
+        getStoredJson<unknown>(TASK_STORAGE_KEYS.tasks),
+      );
+      const storedFilters = getStoredJson<TaskFilters>(
+        TASK_STORAGE_KEYS.filters,
+      );
       const storedViewMode = getStoredString(TASK_STORAGE_KEYS.viewMode);
       const storedSortMode = getStoredString(TASK_STORAGE_KEYS.sortMode);
       const storedHideDone = getStoredString(TASK_STORAGE_KEYS.hideDone);
@@ -80,7 +100,11 @@ export function useTaskManager() {
           setFilters({ ...DEFAULT_TASK_FILTERS, ...storedFilters });
         }
 
-        if (storedViewMode === "default" || storedViewMode === "compact" || storedViewMode === "table") {
+        if (
+          storedViewMode === "default" ||
+          storedViewMode === "compact" ||
+          storedViewMode === "table"
+        ) {
           setViewMode(storedViewMode);
         }
 
@@ -187,7 +211,9 @@ export function useTaskManager() {
   }
 
   function deleteTask(taskId: string) {
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId));
+    setTasks((currentTasks) =>
+      currentTasks.filter((task) => task.id !== taskId),
+    );
 
     if (selectedTaskId === taskId) {
       const fallbackTask = tasks.find((task) => task.id !== taskId) ?? null;
