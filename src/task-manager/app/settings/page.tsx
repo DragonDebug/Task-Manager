@@ -31,8 +31,12 @@ export default function SettingsPage() {
             key={group.title}
             className="rounded-2xl border border-[#d0d7de] bg-white p-6 shadow-sm"
           >
-            <h2 className="text-lg font-semibold text-[#1f2328]">{group.title}</h2>
-            <p className="mt-2 text-sm leading-6 text-[#57606a]">{group.detail}</p>
+            <h2 className="text-lg font-semibold text-[#1f2328]">
+              {group.title}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-[#57606a]">
+              {group.detail}
+            </p>
             <button className="mt-5 inline-flex h-10 items-center rounded-md border border-[#d0d7de] px-4 text-sm font-semibold text-[#1f2328] transition hover:bg-[#f6f8fa]">
               Manage
             </button>

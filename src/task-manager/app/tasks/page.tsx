@@ -31,10 +31,7 @@ type TasksPageProps = {
   }>;
 };
 
-function matchesQuery(
-  task: (typeof tasks)[number],
-  normalizedQuery: string,
-) {
+function matchesQuery(task: (typeof tasks)[number], normalizedQuery: string) {
   return [task.title, task.project, task.status, task.due]
     .join(" ")
     .toLowerCase()

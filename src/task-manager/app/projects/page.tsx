@@ -31,7 +31,9 @@ export default function ProjectsPage() {
                 <h2 className="text-lg font-semibold text-[#1f2328]">
                   {project.name}
                 </h2>
-                <p className="mt-1 text-sm text-[#57606a]">Stage: {project.stage}</p>
+                <p className="mt-1 text-sm text-[#57606a]">
+                  Stage: {project.stage}
+                </p>
               </div>
               <span className="rounded-full bg-[#eaeef2] px-3 py-1 text-xs font-semibold text-[#57606a]">
                 {project.progress}

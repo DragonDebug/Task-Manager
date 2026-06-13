@@ -5,7 +5,11 @@ export default function Home() {
   const workspaceMetrics = [
     { label: "Open tasks", value: "18", detail: "+4 due today" },
     { label: "Active projects", value: "6", detail: "2 shipping this week" },
-    { label: "Team availability", value: "94%", detail: "3 people in focus mode" },
+    {
+      label: "Team availability",
+      value: "94%",
+      detail: "3 people in focus mode",
+    },
   ];
 
   const highlights = [
