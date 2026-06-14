@@ -1,29 +1,19 @@
-const tasks = [
-  {
-    title: "Finalize sprint planning",
-    project: "Platform refresh",
-    status: "In progress",
-    due: "Today",
-  },
-  {
-    title: "Review onboarding checklist",
-    project: "People ops",
-    status: "Ready",
-    due: "Tomorrow",
-  },
-  {
-    title: "Prepare analytics handoff",
-    project: "Executive dashboard",
-    status: "Blocked",
-    due: "Jun 18",
-  },
-  {
-    title: "Refine backlog labels",
-    project: "Support automation",
-    status: "Done",
-    due: "Jun 20",
-  },
-];
+import {
+  formatTaskDueDate,
+  mockTasks,
+  type TaskRecord,
+  type TaskStatus,
+} from "@/lib/mock-tasks";
+
+const statusBadgeStyles: Record<TaskStatus, string> = {
+  Backlog: "bg-[#fef3c7] text-[#92400e]",
+  Pending: "bg-[#ffedd5] text-[#b45309]",
+  Ready: "bg-[#dbeafe] text-[#1d4ed8]",
+  "In progress": "bg-[#ddf4ff] text-[#0969da]",
+  Blocked: "bg-[#ffe4e6] text-[#be123c]",
+  "In review": "bg-[#ede9fe] text-[#6d28d9]",
+  Done: "bg-[#dcfce7] text-[#047857]",
+};
 
 type TasksPageProps = {
   searchParams: Promise<{
@@ -31,8 +21,15 @@ type TasksPageProps = {
   }>;
 };
 
-function matchesQuery(task: (typeof tasks)[number], normalizedQuery: string) {
-  return [task.title, task.project, task.status, task.due]
+function matchesQuery(task: TaskRecord, normalizedQuery: string) {
+  return [
+    task.title,
+    task.project,
+    task.status,
+    task.priority,
+    task.dueOn,
+    formatTaskDueDate(task.dueOn),
+  ]
     .join(" ")
     .toLowerCase()
     .includes(normalizedQuery);
@@ -43,8 +40,8 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
   const query = q.trim();
   const normalizedQuery = query.toLowerCase();
   const filteredTasks = normalizedQuery
-    ? tasks.filter((task) => matchesQuery(task, normalizedQuery))
-    : tasks;
+    ? mockTasks.filter((task) => matchesQuery(task, normalizedQuery))
+    : mockTasks;
 
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
@@ -66,7 +63,7 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
           <div className="rounded-lg border border-[#d8dee4] bg-[#f6f8fa] px-4 py-3 text-sm text-[#57606a]">
             {query
               ? `Showing ${filteredTasks.length} result${filteredTasks.length === 1 ? "" : "s"} for “${query}”.`
-              : `Showing ${filteredTasks.length} active tasks.`}
+              : `Showing ${filteredTasks.length} tasks.`}
           </div>
         </div>
       </section>
@@ -83,22 +80,27 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
           {filteredTasks.length > 0 ? (
             filteredTasks.map((task) => (
               <article
-                key={task.title}
+                key={task.id}
                 className="grid grid-cols-[1.6fr_1fr_0.9fr_0.8fr] gap-4 px-6 py-5 text-sm text-[#1f2328]"
               >
                 <div>
                   <p className="font-semibold">{task.title}</p>
                   <p className="mt-1 text-[#57606a]">
-                    Owner view aligned for the current sprint.
+                    {task.priority} priority
                   </p>
                 </div>
                 <p>{task.project}</p>
                 <p>
-                  <span className="inline-flex rounded-full bg-[#ddf4ff] px-2.5 py-1 text-xs font-semibold text-[#0969da]">
+                  <span
+                    className={[
+                      "inline-flex rounded-full px-2.5 py-1 text-xs font-semibold",
+                      statusBadgeStyles[task.status],
+                    ].join(" ")}
+                  >
                     {task.status}
                   </span>
                 </p>
-                <p>{task.due}</p>
+                <p>{formatTaskDueDate(task.dueOn)}</p>
               </article>
             ))
           ) : (

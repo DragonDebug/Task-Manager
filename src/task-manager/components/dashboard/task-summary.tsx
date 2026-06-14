@@ -22,29 +22,34 @@ const sectionStyles: Record<
     wrapper: string;
     title: string;
     description: string;
-    grid: string;
+    layout: string;
+    item: string;
     headerGap: string;
   }
 > = {
   small: {
-    wrapper: "p-3.5 sm:p-4",
+    wrapper: "p-3 sm:p-3.5",
     title: "text-base",
     description: "text-sm leading-6",
-    grid: "gap-2.5",
-    headerGap: "mt-3",
+    layout:
+      "flex flex-wrap items-stretch gap-2 overflow-x-auto overflow-y-visible pb-1 sm:gap-2.5",
+    item: "min-w-[10.75rem] max-w-[25.00rem] flex-[1_1_10.75rem]",
+    headerGap: "mt-2.5",
   },
   medium: {
     wrapper: "p-4.5 sm:p-5",
     title: "text-lg",
     description: "text-sm leading-6",
-    grid: "gap-3",
+    layout: "flex flex-wrap items-stretch gap-2 overflow-x-auto overflow-y-visible pb-1 sm:gap-2.5",
+    item: "min-w-[10.75rem] max-w-[25.00rem] flex-[1_1_10.75rem]",
     headerGap: "mt-4",
   },
   large: {
     wrapper: "p-5 sm:p-6",
     title: "text-xl",
     description: "text-base leading-7",
-    grid: "gap-4",
+    layout: "flex flex-wrap items-stretch gap-2 overflow-x-auto overflow-y-visible pb-1 sm:gap-2.5",
+    item: "min-w-[10.75rem] max-w-[25.00rem] flex-[1_1_10.75rem]",
     headerGap: "mt-5",
   },
 };
@@ -61,11 +66,10 @@ export default function TaskSummary({
   return (
     <section
       className={[
-        "relative overflow-hidden rounded-[24px] border border-[var(--summary-border)] bg-[linear-gradient(135deg,var(--summary-shell-top),var(--summary-shell-bottom))] shadow-[0_20px_50px_-34px_rgba(15,23,42,0.55)] backdrop-blur-sm",
+        "relative w-full overflow-hidden rounded-[20px] border border-[var(--summary-border)] bg-[linear-gradient(135deg,var(--summary-shell-top),var(--summary-shell-bottom))] shadow-[0_14px_34px_-28px_rgba(15,23,42,0.52)] backdrop-blur-sm",
         styles.wrapper,
       ].join(" ")}
     >
-
       {hasHeader ? (
         <div className="relative max-w-3xl">
           {title ? (
@@ -94,20 +98,21 @@ export default function TaskSummary({
 
       <div
         className={[
-          "relative grid md:grid-cols-2 lg:grid-cols-4",
-          styles.grid,
+          "relative",
+          styles.layout,
           hasHeader ? styles.headerGap : "",
         ].join(" ")}
       >
         {metrics.map((metric) => (
-          <TaskSummaryCard
-            key={metric.label}
-            label={metric.label}
-            value={metric.value}
-            detail={metric.detail}
-            size={size}
-            tone={metric.tone}
-          />
+          <div key={metric.label} className={styles.item}>
+            <TaskSummaryCard
+              label={metric.label}
+              value={metric.value}
+              detail={metric.detail}
+              size={size}
+              tone={metric.tone}
+            />
+          </div>
         ))}
       </div>
     </section>
