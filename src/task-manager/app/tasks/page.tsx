@@ -4,6 +4,7 @@ import {
   type TaskRecord,
   type TaskStatus,
 } from "@/lib/mock-tasks";
+import Link from "next/link";
 
 const statusBadgeStyles: Record<TaskStatus, string> = {
   Backlog: "bg-[#fef3c7] text-[#92400e]",
@@ -49,6 +50,9 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#57606a]">
           Tasks
         </p>
+        <Link href="/tasks/card-variants" className="text-sm font-semibold text-[#1d4ed8]">
+           View card variants
+        </Link>
         <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight text-[#1f2328]">
