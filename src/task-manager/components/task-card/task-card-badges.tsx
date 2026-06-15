@@ -11,7 +11,7 @@ export function PriorityBadge({ priority, className = "" }: { priority: TaskPrio
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider ${className}`}
+      className={`inline-flex items-center min-w-[4rem] justify-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.55rem] font-semibold uppercase tracking-wider ${className}`}
       style={{
         backgroundColor: colors.bg,
         color: colors.text,
@@ -19,7 +19,7 @@ export function PriorityBadge({ priority, className = "" }: { priority: TaskPrio
       }}
     >
       <span
-        className="inline-block h-1 w-10 rounded-full"
+        className="inline-block h-0.5 w-10 rounded-full"
         style={{ backgroundColor: colors.dot }}
       />
       {priority}
@@ -32,7 +32,7 @@ export function CategoryBadge({ category, className = "" }: { category: TaskCate
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider ${className}`}
+      className={`inline-flex items-center min-w-[6.5rem] justify-center gap-1.5 rounded-full px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wider ${className}`}
       style={{
         backgroundColor: colors.bg,
         color: colors.text,

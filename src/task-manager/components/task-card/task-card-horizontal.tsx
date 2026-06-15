@@ -58,7 +58,7 @@ export default function TaskCardHorizontal({
       className="group relative rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] transition-all hover:border-[var(--muted)]/30 hover:shadow-lg"
       style={{
         borderLeftWidth: "3px",
-        borderLeftColor: priorityColors.dot,
+        borderLeftColor: categoryColors.accent,
       }}
     >
       {/* Top accent line */}
@@ -75,53 +75,58 @@ export default function TaskCardHorizontal({
           <TaskCardCheckbox
             checked={isCompleted}
             onChange={handleCheckbox}
-            color={priorityColors.dot}
+            className="self-start mt-[0.5rem]"
           />
-          <TaskCardImage
-            category={task.category}
-            imageUrl={task.imageUrl}
-            title={task.title}
-            size="lg"
-          />
+          <div className="flex flex-col items-center gap-3">
+            <TaskCardImage
+              category={task.category}
+              imageUrl={task.imageUrl}
+              title={task.title}
+              size="lg"
+            />
+            <CategoryBadge category={task.category} />
+          </div>
         </div>
 
         {/* Center: Content */}
         <div className="flex min-w-0 flex-1 flex-col justify-between py-4 pr-4">
           {/* Top row: badges + title */}
           <div>
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              <CategoryBadge category={task.category} />
-              <PriorityBadge priority={priority} />
-              <ProjectBadge project={task.project} />
-            </div>
             <h3
-              className={`text-sm font-semibold leading-snug ${
-                isCompleted ? "text-[var(--muted)] line-through" : "text-[var(--foreground)]"
+              className={`text-lg font-semibold leading-snug ${
+                isCompleted
+                  ? "text-[var(--muted)] line-through"
+                  : "text-[var(--foreground)]"
               }`}
             >
               {task.title}
             </h3>
+
             {task.description && (
               <p className="mt-1 line-clamp-1 text-xs text-[var(--muted)]">
                 {task.description}
               </p>
             )}
           </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <PriorityBadge priority={priority} />
+              <ProjectBadge project={task.project} />
+            </div>
 
           {/* Bottom row: progress + meta */}
-          <div className="mt-3">
+          <div className="mt-[0.2rem]">
             <div className="mb-1.5 flex items-center justify-between">
               <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-[var(--muted)]">
                 Progress
               </span>
               <span
                 className="text-xs font-bold"
-                style={{ color: priorityColors.dot }}
+
               >
                 {task.progress}%
               </span>
             </div>
-            <ProgressBar value={task.progress} color={priorityColors.dot} />
+            <ProgressBar value={task.progress} />
 
             <div className="mt-2.5 flex items-center gap-4 text-[0.65rem] text-[var(--muted)]">
               <span className="inline-flex items-center gap-1">
@@ -147,15 +152,9 @@ export default function TaskCardHorizontal({
         </div>
 
         {/* Right: Toggles */}
-        <div className="flex flex-col items-end justify-between border-l border-[var(--border-color)] p-4">
-          <PriorityToggle
-            value={priority}
-            onChange={handlePriorityChange}
-          />
-          <StatusToggle
-            value={status}
-            onChange={handleStatusChange}
-          />
+        <div className="flex flex-col items-end justify-center gap-[1rem] border-l border-[var(--border-color)] p-4">
+          <PriorityToggle value={priority} onChange={handlePriorityChange} />
+          <StatusToggle value={status} onChange={handleStatusChange} />
         </div>
       </div>
     </article>
@@ -167,10 +166,42 @@ export default function TaskCardHorizontal({
 function ItemsIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <rect x="1" y="1" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
-      <rect x="7" y="1" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
-      <rect x="1" y="7" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
-      <rect x="7" y="7" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
+      <rect
+        x="1"
+        y="1"
+        width="4"
+        height="4"
+        rx="0.8"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
+      <rect
+        x="7"
+        y="1"
+        width="4"
+        height="4"
+        rx="0.8"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
+      <rect
+        x="1"
+        y="7"
+        width="4"
+        height="4"
+        rx="0.8"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
+      <rect
+        x="7"
+        y="7"
+        width="4"
+        height="4"
+        rx="0.8"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
     </svg>
   );
 }
@@ -178,7 +209,12 @@ function ItemsIcon() {
 function LogsIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path d="M2 3h8M2 6h6M2 9h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <path
+        d="M2 3h8M2 6h6M2 9h4"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -186,9 +222,22 @@ function LogsIcon() {
 function CalendarIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <rect x="1.5" y="2.5" width="9" height="8" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
+      <rect
+        x="1.5"
+        y="2.5"
+        width="9"
+        height="8"
+        rx="1.2"
+        stroke="currentColor"
+        strokeWidth="1.1"
+      />
       <path d="M1.5 5h9" stroke="currentColor" strokeWidth="1.1" />
-      <path d="M4 1v2M8 1v2" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
+      <path
+        d="M4 1v2M8 1v2"
+        stroke="currentColor"
+        strokeWidth="1.1"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }

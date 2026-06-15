@@ -45,7 +45,7 @@ export default function StatusPriorityToggle<T extends string>({
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center min-w-[11rem] gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--surface-elevated)]"
+        className="flex items-center min-w-[12rem] gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--surface-elevated)]"
       >
         <span className="text-[var(--muted)] uppercase tracking-wider text-[0.6rem] min-w-[3rem]">
           {label}
@@ -61,7 +61,7 @@ export default function StatusPriorityToggle<T extends string>({
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 min-w-[10rem] overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] shadow-xl">
+        <div className="absolute right-0 top-full z-50 mt-1 min-w-[12rem] overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] shadow-xl">
           {options.map((option) => {
             const isActive = option.value === value;
             return (
