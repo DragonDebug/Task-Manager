@@ -16,27 +16,6 @@ export default function CalendarPage() {
           Team schedule for the current delivery cycle
         </h1>
       </section>
-
-      <section className="rounded-2xl border border-[#d0d7de] bg-white shadow-sm">
-        <div className="divide-y divide-[#d8dee4]">
-          {events.map((event) => (
-            <article
-              key={event.title}
-              className="flex flex-col gap-3 px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <h2 className="text-lg font-semibold text-[#1f2328]">
-                  {event.title}
-                </h2>
-                <p className="mt-1 text-sm text-[#57606a]">{event.owner}</p>
-              </div>
-              <span className="text-sm font-medium text-[#57606a]">
-                {event.time}
-              </span>
-            </article>
-          ))}
-        </div>
-      </section>
     </main>
   );
 }

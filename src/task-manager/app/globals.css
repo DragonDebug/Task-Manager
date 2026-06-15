@@ -15,6 +15,9 @@
   --summary-card-bottom: rgba(242, 247, 255, 0.9);
   --summary-card-border: rgba(148, 163, 184, 0.18);
   --summary-muted: #5c6c83;
+  --accent: #1f6feb;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgba(31, 111, 235, 0.12);
 }
 
 @theme inline {
@@ -40,6 +43,9 @@
     --summary-card-bottom: rgba(11, 19, 34, 0.94);
     --summary-card-border: rgba(148, 163, 184, 0.12);
     --summary-muted: #97a7c2;
+    --accent: #4493f8;
+    --accent-foreground: #06101f;
+    --accent-soft: rgba(68, 147, 248, 0.18);
   }
 }
 

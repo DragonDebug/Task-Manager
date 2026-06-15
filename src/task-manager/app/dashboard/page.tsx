@@ -61,7 +61,7 @@ const taskSummaryMetrics: readonly TaskSummaryMetric[] = [
 export default function DashboardPage() {
   return (
     <main className="flex w-full flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-7 lg:px-8">
-      <TaskSummary metrics={taskSummaryMetrics} size="small" />
+      <TaskSummary metrics={taskSummaryMetrics} size="medium" />
     </main>
   );
 }
