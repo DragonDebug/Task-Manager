@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, memo } from "react";
 
 // ── Generic dropdown toggle ──────────────────────────────────────────────────
 
@@ -18,7 +18,7 @@ type StatusPriorityToggleProps<T extends string> = {
   className?: string;
 };
 
-export default function StatusPriorityToggle<T extends string>({
+function StatusPriorityToggleInner<T extends string>({
   label,
   value,
   options,
@@ -95,6 +95,10 @@ export default function StatusPriorityToggle<T extends string>({
   );
 }
 
+// memo the inner component — options identity must be stable for this to help
+const StatusPriorityToggle = memo(StatusPriorityToggleInner) as typeof StatusPriorityToggleInner;
+export default StatusPriorityToggle;
+
 // ── Chevron helper ───────────────────────────────────────────────────────────
 
 function ChevronIcon({ open }: { open: boolean }) {
@@ -129,6 +133,7 @@ import {
   CATEGORY_OPTIONS,
 } from "@/lib/task-card-types";
 
+// Pre-compute option arrays once at module scope so they keep a stable identity
 const STATUS_COLORS: Record<TaskStatus, string> = {
   Backlog:       "#64748b",
   Pending:       "#eab308",
@@ -138,6 +143,26 @@ const STATUS_COLORS: Record<TaskStatus, string> = {
   "In review":   "#a855f7",
   Done:          "#22c55e",
 };
+
+const STATUS_TOGGLE_OPTIONS = STATUS_OPTIONS.map((s) => ({
+  value: s,
+  label: s,
+  color: STATUS_COLORS[s],
+}));
+
+const PRIORITY_TOGGLE_OPTIONS = PRIORITY_OPTIONS.map((p) => ({
+  value: p,
+  label: p,
+  color: PRIORITY_COLORS[p].dot,
+}));
+
+const CATEGORY_TOGGLE_OPTIONS = CATEGORY_OPTIONS.map((c) => ({
+  value: c,
+  label: c,
+  color: CATEGORY_COLORS[c].accent,
+}));
+
+// ── Typed wrappers ───────────────────────────────────────────────────────────
 
 type StatusToggleProps = {
   value: TaskStatus;
@@ -150,7 +175,7 @@ export function StatusToggle({ value, onChange, className }: StatusToggleProps) 
     <StatusPriorityToggle
       label="Status"
       value={value}
-      options={STATUS_OPTIONS.map((s) => ({ value: s, label: s, color: STATUS_COLORS[s] }))}
+      options={STATUS_TOGGLE_OPTIONS}
       onChange={onChange}
       className={className}
     />
@@ -168,7 +193,7 @@ export function PriorityToggle({ value, onChange, className }: PriorityTogglePro
     <StatusPriorityToggle
       label="Priority"
       value={value}
-      options={PRIORITY_OPTIONS.map((p) => ({ value: p, label: p, color: PRIORITY_COLORS[p].dot }))}
+      options={PRIORITY_TOGGLE_OPTIONS}
       onChange={onChange}
       className={className}
     />
@@ -186,7 +211,7 @@ export function CategoryToggle({ value, onChange, className }: CategoryTogglePro
     <StatusPriorityToggle
       label="Category"
       value={value}
-      options={CATEGORY_OPTIONS.map((c) => ({ value: c, label: c, color: CATEGORY_COLORS[c].accent }))}
+      options={CATEGORY_TOGGLE_OPTIONS}
       onChange={onChange}
       className={className}
     />
