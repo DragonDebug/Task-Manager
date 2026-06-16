@@ -42,67 +42,72 @@ export default function SubtaskList({ subtasks, onChange }: SubtaskListProps) {
   }
 
   return (
-    <div className="space-y-2">
-      {subtasks.map((sub) => (
-        <div key={sub.id} className="flex items-center gap-2">
-          {/* Checkbox */}
-          <button
-            type="button"
-            onClick={() => toggle(sub.id)}
-            className={`flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded border transition-colors ${
-              sub.completed
-                ? "border-transparent bg-[var(--accent)]"
-                : "border-[var(--muted)]/40 hover:border-[var(--muted)]/70"
-            }`}
-          >
-            {sub.completed && (
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path
-                  d="M2 5l2 2 4-4"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )}
-          </button>
+    <div className="flex flex-col">
+      {/* Scrollable subtask area with fixed max height */}
+      {subtasks.length > 0 && (
+        <div className="max-h-[10rem] space-y-2 overflow-y-auto pr-1">
+          {subtasks.map((sub) => (
+            <div key={sub.id} className="flex items-center gap-2">
+              {/* Checkbox */}
+              <button
+                type="button"
+                onClick={() => toggle(sub.id)}
+                className={`flex h-4 w-4 shrink-0 cursor-pointer items-center justify-center rounded border transition-colors ${
+                  sub.completed
+                    ? "border-transparent bg-[var(--accent)]"
+                    : "border-[var(--muted)]/40 hover:border-[var(--muted)]/70"
+                }`}
+              >
+                {sub.completed && (
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path
+                      d="M2 5l2 2 4-4"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </button>
 
-          {/* Title input */}
-          <input
-            type="text"
-            value={sub.title}
-            onChange={(e) => updateTitle(sub.id, e.target.value)}
-            placeholder="Subtask title..."
-            className={`flex-1 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)]/50 focus:border-[var(--accent)]/40 focus:outline-none ${
-              sub.completed ? "line-through text-[var(--muted)]" : ""
-            }`}
-          />
-
-          {/* Remove */}
-          <button
-            type="button"
-            onClick={() => remove(sub.id)}
-            className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-[var(--muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
-            aria-label="Remove subtask"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path
-                d="M3 3l6 6M9 3l-6 6"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinecap="round"
+              {/* Title input */}
+              <input
+                type="text"
+                value={sub.title}
+                onChange={(e) => updateTitle(sub.id, e.target.value)}
+                placeholder="Subtask title..."
+                className={`flex-1 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)]/50 focus:border-[var(--accent)]/40 focus:outline-none ${
+                  sub.completed ? "line-through text-[var(--muted)]" : ""
+                }`}
               />
-            </svg>
-          </button>
-        </div>
-      ))}
 
-      {/* Add button */}
+              {/* Remove */}
+              <button
+                type="button"
+                onClick={() => remove(sub.id)}
+                className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded text-[var(--muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
+                aria-label="Remove subtask"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path
+                    d="M3 3l6 6M9 3l-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Add button — w-fit so clicking empty space beside it does nothing */}
       <button
         type="button"
         onClick={add}
-        className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)]"
+        className="mt-2 flex w-fit cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-medium text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)]"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path

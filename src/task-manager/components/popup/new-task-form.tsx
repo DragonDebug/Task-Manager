@@ -13,6 +13,7 @@ import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import type { TaskCategory } from "@/lib/task-card-types";
 import { StatusToggle, PriorityToggle, CategoryToggle } from "@/components/task-card";
 import TaskCardImage from "@/components/task-card/task-card-image";
+import { formatDate } from "@/lib/format-date";
 import Popup from "./popup";
 import TabGroup, { type Tab } from "./tab-group";
 import SubtaskList, { type Subtask } from "./subtask-list";
@@ -733,15 +734,39 @@ function DateField({
   defaultValue: string;
   onChange: InputHandler;
 }) {
+  const [display, setDisplay] = useState(() => formatDate(defaultValue));
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleChange: InputHandler = (e) => {
+    setDisplay(formatDate(e.target.value));
+    onChange(e);
+  };
+
   return (
     <FormField label={label}>
-      <input
-        type="date"
-        name={name}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        className={DATE_CLS}
-      />
+      <div
+        className={DATE_CLS + " relative flex items-center"}
+        onClick={() => inputRef.current?.showPicker?.()}
+      >
+        <span className={display ? "text-[var(--foreground)]" : "text-[var(--muted)]/50"}>
+          {display || "DD-MMM-YYYY"}
+        </span>
+        {/* Hidden native date input for the picker */}
+        <input
+          ref={inputRef}
+          type="date"
+          name={name}
+          defaultValue={defaultValue}
+          onChange={handleChange}
+          className="absolute inset-0 cursor-pointer opacity-0"
+          tabIndex={-1}
+        />
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="ml-auto text-[var(--muted)]">
+          <rect x="1.5" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.2" />
+          <path d="M1.5 5.5h11" stroke="currentColor" strokeWidth="1.2" />
+          <path d="M4.5 1v2.5M9.5 1v2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+        </svg>
+      </div>
     </FormField>
   );
 }

@@ -284,7 +284,7 @@ function CardList({
 
   if (view === "vertical") {
     return (
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {tasks.map((t) => (
           <div
             key={t.id}

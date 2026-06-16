@@ -3,6 +3,7 @@
 import type { TaskCardData } from "@/lib/task-card-types";
 import { PRIORITY_COLORS, CATEGORY_COLORS } from "@/lib/task-card-types";
 import TaskCardImage from "@/components/task-card/task-card-image";
+import { formatDate } from "@/lib/format-date";
 import {
   PriorityBadge,
   CategoryBadge,
@@ -156,7 +157,9 @@ function DateItem({ label, value }: { label: string; value: string }) {
       <p className="text-[0.6rem] font-medium uppercase tracking-wider text-[var(--muted)]">
         {label}
       </p>
-      <p className="text-xs font-medium text-[var(--foreground)]">{value}</p>
+      <p className="text-xs font-medium text-[var(--foreground)]">
+        {formatDate(value)}
+      </p>
     </div>
   );
 }

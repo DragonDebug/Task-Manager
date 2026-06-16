@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { TaskCardData } from "@/lib/task-card-types";
 import { PRIORITY_COLORS, CATEGORY_COLORS } from "@/lib/task-card-types";
+import { formatDate } from "@/lib/format-date";
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import TaskCardCheckbox from "./task-card-checkbox";
 import ProgressBar from "./progress-bar";
@@ -108,7 +109,7 @@ export default function TaskCardMinimal({
             <div className="ml-2 flex items-center gap-3 text-[0.6rem] text-[var(--muted)]">
               <span>{task.itemCount} items</span>
               <span>{task.logCount} logs</span>
-              <span>Due {task.dueOn}</span>
+              <span>Due {formatDate(task.dueOn)}</span>
             </div>
           </div>
         </div>

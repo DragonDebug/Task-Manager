@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { TaskCardData } from "@/lib/task-card-types";
 import { CATEGORY_COLORS } from "@/lib/task-card-types";
+import { formatDate } from "@/lib/format-date";
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import TaskCardImage from "./task-card-image";
 import TaskCardCheckbox from "./task-card-checkbox";
@@ -136,12 +137,12 @@ export default function TaskCardHorizontal({
               {task.startedOn && (
                 <span className="inline-flex items-center gap-1">
                   <CalendarIcon />
-                  Started {task.startedOn}
+                  Started {formatDate(task.startedOn)}
                 </span>
               )}
               <span className="inline-flex items-center gap-1">
                 <CalendarIcon />
-                Due {task.dueOn}
+                Due {formatDate(task.dueOn)}
               </span>
             </div>
           </div>

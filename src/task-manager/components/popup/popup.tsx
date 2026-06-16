@@ -23,6 +23,7 @@ export default function Popup({
 }: PopupProps) {
   const [showConfirm, setShowConfirm] = useState(false);
   const backdropRef = useRef<HTMLDivElement>(null);
+  const mouseDownOnBackdropRef = useRef(false);
 
   const requestClose = useCallback(() => {
     if (dirty) {
@@ -48,15 +49,23 @@ export default function Popup({
 
   if (!open) return null;
 
-  function handleBackdropClick(e: React.MouseEvent) {
-    if (e.target === backdropRef.current) requestClose();
+  function handleBackdropMouseDown(e: React.MouseEvent) {
+    mouseDownOnBackdropRef.current = e.target === backdropRef.current;
+  }
+
+  function handleBackdropMouseUp(e: React.MouseEvent) {
+    if (mouseDownOnBackdropRef.current && e.target === backdropRef.current) {
+      requestClose();
+    }
+    mouseDownOnBackdropRef.current = false;
   }
 
   return (
     <>
       <div
         ref={backdropRef}
-        onClick={handleBackdropClick}
+        onMouseDown={handleBackdropMouseDown}
+        onMouseUp={handleBackdropMouseUp}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
       >
         <div

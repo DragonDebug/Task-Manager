@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { TaskCardData } from "@/lib/task-card-types";
 import { PRIORITY_COLORS, CATEGORY_COLORS } from "@/lib/task-card-types";
+import { formatDate } from "@/lib/format-date";
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import TaskCardImage from "./task-card-image";
 import TaskCardCheckbox from "./task-card-checkbox";
@@ -131,7 +132,7 @@ export default function TaskCardVertical({
             <span>{task.itemCount} items</span>
             <span>{task.logCount} logs</span>
           </div>
-          <span>Due {task.dueOn}</span>
+          <span>Due {formatDate(task.dueOn)}</span>
         </div>
 
         {/* Toggles */}
