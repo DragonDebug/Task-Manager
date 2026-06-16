@@ -12,7 +12,7 @@ export type TaskCardData = {
   category: TaskCategory;
   status: TaskStatus;
   priority: TaskPriority;
-  progress: number; // 0–100
+  progress: number; // 0-100
   imageUrl?: string;
   itemCount: number;
   logCount: number;
@@ -39,6 +39,15 @@ export const CATEGORY_COLORS: Record<TaskCategory, { bg: string; text: string; b
   Research:    { bg: "rgba(16,185,129,0.14)",   text: "#34d399", border: "rgba(16,185,129,0.30)",  accent: "#10b981" },
   Operations:  { bg: "rgba(245,158,11,0.14)",   text: "#fbbf24", border: "rgba(245,158,11,0.30)",  accent: "#f59e0b" },
 };
+
+export const CATEGORY_OPTIONS: TaskCategory[] = [
+  "Work",
+  "Personal",
+  "Design",
+  "Development",
+  "Research",
+  "Operations",
+];
 
 export const STATUS_OPTIONS: TaskStatus[] = [
   "Backlog",

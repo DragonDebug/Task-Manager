@@ -54,26 +54,22 @@ export default function TaskCardVertical({
   }
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--border-color)] bg-[var(--surface)] transition-all hover:border-[var(--muted)]/30 hover:shadow-lg">
+    <article className="group relative flex flex-col rounded-2xl min-w-[26rem] border border-[var(--border-color)] bg-[var(--surface)] transition-all hover:border-[var(--muted)]/30 hover:shadow-lg">
       {/* Image header */}
       <div
-        className="relative flex h-36 items-center justify-center"
+        className="relative flex h-36 items-center justify-center overflow-hidden rounded-t-2xl"
         style={{
-          background: `linear-gradient(135deg, ${categoryColors.bg}, ${priorityColors.bg})`,
+          background: `linear-gradient(135deg, ${categoryColors.bg})`,
         }}
       >
         {/* Corner checkbox */}
         <div className="absolute left-3 top-3 z-10">
-          <TaskCardCheckbox
-            checked={isCompleted}
-            onChange={handleCheckbox}
-            color={priorityColors.dot}
-          />
+          <TaskCardCheckbox checked={isCompleted} onChange={handleCheckbox} />
         </div>
 
         {/* Floating badges */}
         <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5">
-          <PriorityBadge priority={priority} />
+          <CategoryBadge category={task.category} />
         </div>
 
         <TaskCardImage
@@ -97,14 +93,16 @@ export default function TaskCardVertical({
       <div className="flex flex-1 flex-col px-4 pb-4 pt-2">
         {/* Badges row */}
         <div className="mb-2 flex flex-wrap items-center gap-1.5">
-          <CategoryBadge category={task.category} />
+          <PriorityBadge priority={priority} />
           <ProjectBadge project={task.project} />
         </div>
 
         {/* Title */}
         <h3
-          className={`text-sm font-semibold leading-snug ${
-            isCompleted ? "text-[var(--muted)] line-through" : "text-[var(--foreground)]"
+          className={`text-lg font-semibold leading-snug ${
+            isCompleted
+              ? "text-[var(--muted)] line-through"
+              : "text-[var(--foreground)]"
           }`}
         >
           {task.title}
@@ -122,11 +120,9 @@ export default function TaskCardVertical({
             <span className="text-[0.6rem] font-semibold uppercase tracking-wider text-[var(--muted)]">
               Progress
             </span>
-            <span className="text-[0.65rem] font-bold" style={{ color: priorityColors.dot }}>
-              {task.progress}%
-            </span>
+            <span className="text-[0.65rem] font-bold">{task.progress}%</span>
           </div>
-          <ProgressBar value={task.progress} color={priorityColors.dot} />
+          <ProgressBar value={task.progress} />
         </div>
 
         {/* Meta row */}
@@ -143,12 +139,12 @@ export default function TaskCardVertical({
           <StatusToggle
             value={status}
             onChange={handleStatusChange}
-            className="flex-1"
+            className="justify-start"
           />
           <PriorityToggle
             value={priority}
             onChange={handlePriorityChange}
-            className="flex-1"
+            className="ml-auto"
           />
         </div>
       </div>

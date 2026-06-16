@@ -30,7 +30,10 @@ export default function StatusPriorityToggle<T extends string>({
 
   const selected = options.find((o) => o.value === value) ?? options[0];
 
+  // Only attach listener when dropdown is open
   useEffect(() => {
+    if (!open) return;
+
     function handleClickOutside(e: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
         setOpen(false);
@@ -38,14 +41,14 @@ export default function StatusPriorityToggle<T extends string>({
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [open]);
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center min-w-[12rem] gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--surface-elevated)]"
+        className="flex cursor-pointer items-center min-w-[12rem] gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--surface-elevated)]"
       >
         <span className="text-[var(--muted)] uppercase tracking-wider text-[0.6rem] min-w-[3rem]">
           {label}
@@ -72,7 +75,7 @@ export default function StatusPriorityToggle<T extends string>({
                   onChange(option.value);
                   setOpen(false);
                 }}
-                className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors ${
+                className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-xs transition-colors ${
                   isActive
                     ? "bg-[var(--accent-soft)] text-[var(--accent)]"
                     : "text-[var(--foreground)] hover:bg-[var(--surface)]"
@@ -114,13 +117,16 @@ function ChevronIcon({ open }: { open: boolean }) {
   );
 }
 
-// ── Pre-configured status & priority toggles ─────────────────────────────────
+// ── Pre-configured status, priority & category toggles ───────────────────────
 
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
+import type { TaskCategory } from "@/lib/task-card-types";
 import {
   STATUS_OPTIONS,
   PRIORITY_OPTIONS,
   PRIORITY_COLORS,
+  CATEGORY_COLORS,
+  CATEGORY_OPTIONS,
 } from "@/lib/task-card-types";
 
 const STATUS_COLORS: Record<TaskStatus, string> = {
@@ -163,6 +169,24 @@ export function PriorityToggle({ value, onChange, className }: PriorityTogglePro
       label="Priority"
       value={value}
       options={PRIORITY_OPTIONS.map((p) => ({ value: p, label: p, color: PRIORITY_COLORS[p].dot }))}
+      onChange={onChange}
+      className={className}
+    />
+  );
+}
+
+type CategoryToggleProps = {
+  value: TaskCategory;
+  onChange: (value: TaskCategory) => void;
+  className?: string;
+};
+
+export function CategoryToggle({ value, onChange, className }: CategoryToggleProps) {
+  return (
+    <StatusPriorityToggle
+      label="Category"
+      value={value}
+      options={CATEGORY_OPTIONS.map((c) => ({ value: c, label: c, color: CATEGORY_COLORS[c].accent }))}
       onChange={onChange}
       className={className}
     />

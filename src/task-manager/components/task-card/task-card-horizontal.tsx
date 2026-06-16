@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { TaskCardData } from "@/lib/task-card-types";
-import { PRIORITY_COLORS, CATEGORY_COLORS } from "@/lib/task-card-types";
+import { CATEGORY_COLORS } from "@/lib/task-card-types";
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import TaskCardImage from "./task-card-image";
 import TaskCardCheckbox from "./task-card-checkbox";
@@ -33,7 +33,6 @@ export default function TaskCardHorizontal({
   const [priority, setPriority] = useState(task.priority);
   const isCompleted = status === "Done";
 
-  const priorityColors = PRIORITY_COLORS[priority];
   const categoryColors = CATEGORY_COLORS[task.category];
 
   function handleStatusChange(newStatus: TaskStatus) {
@@ -65,7 +64,7 @@ export default function TaskCardHorizontal({
       <div
         className="absolute inset-x-7 top-0 h-[2px]"
         style={{
-          background: `linear-gradient(90deg, ${categoryColors.accent})`,
+          background: `linear-gradient(90deg, ${categoryColors.accent}, transparent)`,
         }}
       />
 
@@ -90,7 +89,7 @@ export default function TaskCardHorizontal({
 
         {/* Center: Content */}
         <div className="flex min-w-0 flex-1 flex-col justify-between py-4 pr-4">
-          {/* Top row: badges + title */}
+          {/* Top row: title */}
           <div>
             <h3
               className={`text-lg font-semibold leading-snug ${
@@ -108,10 +107,10 @@ export default function TaskCardHorizontal({
               </p>
             )}
           </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <PriorityBadge priority={priority} />
-              <ProjectBadge project={task.project} />
-            </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <PriorityBadge priority={priority} />
+            <ProjectBadge project={task.project} />
+          </div>
 
           {/* Bottom row: progress + meta */}
           <div className="mt-[0.2rem]">
@@ -119,10 +118,7 @@ export default function TaskCardHorizontal({
               <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-[var(--muted)]">
                 Progress
               </span>
-              <span
-                className="text-xs font-bold"
-
-              >
+              <span className="text-xs font-bold">
                 {task.progress}%
               </span>
             </div>
@@ -166,42 +162,10 @@ export default function TaskCardHorizontal({
 function ItemsIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <rect
-        x="1"
-        y="1"
-        width="4"
-        height="4"
-        rx="0.8"
-        stroke="currentColor"
-        strokeWidth="1.2"
-      />
-      <rect
-        x="7"
-        y="1"
-        width="4"
-        height="4"
-        rx="0.8"
-        stroke="currentColor"
-        strokeWidth="1.2"
-      />
-      <rect
-        x="1"
-        y="7"
-        width="4"
-        height="4"
-        rx="0.8"
-        stroke="currentColor"
-        strokeWidth="1.2"
-      />
-      <rect
-        x="7"
-        y="7"
-        width="4"
-        height="4"
-        rx="0.8"
-        stroke="currentColor"
-        strokeWidth="1.2"
-      />
+      <rect x="1" y="1" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
+      <rect x="7" y="1" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
+      <rect x="1" y="7" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
+      <rect x="7" y="7" width="4" height="4" rx="0.8" stroke="currentColor" strokeWidth="1.2" />
     </svg>
   );
 }
@@ -209,12 +173,7 @@ function ItemsIcon() {
 function LogsIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <path
-        d="M2 3h8M2 6h6M2 9h4"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-      />
+      <path d="M2 3h8M2 6h6M2 9h4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -222,22 +181,9 @@ function LogsIcon() {
 function CalendarIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-      <rect
-        x="1.5"
-        y="2.5"
-        width="9"
-        height="8"
-        rx="1.2"
-        stroke="currentColor"
-        strokeWidth="1.1"
-      />
+      <rect x="1.5" y="2.5" width="9" height="8" rx="1.2" stroke="currentColor" strokeWidth="1.1" />
       <path d="M1.5 5h9" stroke="currentColor" strokeWidth="1.1" />
-      <path
-        d="M4 1v2M8 1v2"
-        stroke="currentColor"
-        strokeWidth="1.1"
-        strokeLinecap="round"
-      />
+      <path d="M4 1v2M8 1v2" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
     </svg>
   );
 }

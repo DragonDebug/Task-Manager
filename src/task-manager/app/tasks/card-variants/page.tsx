@@ -27,7 +27,7 @@ export default function CardVariantsPage() {
           title="Vertical Compact"
           description="Image on top, stacked content below. Best for 2–4 column grid layouts."
         />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xlg:grid-cols-4">
           {sampleTasks.map((task) => (
             <TaskCardVertical key={task.id} task={task} />
           ))}

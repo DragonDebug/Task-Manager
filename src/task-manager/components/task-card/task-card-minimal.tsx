@@ -60,7 +60,7 @@ export default function TaskCardMinimal({
       <div
         className="w-1.5 shrink-0 rounded-l-xl"
         style={{
-          background: `linear-gradient(180deg, ${categoryColors.accent}, ${priorityColors.dot})`,
+          background: `linear-gradient(180deg, ${categoryColors.accent})`,
         }}
       />
 
@@ -69,7 +69,6 @@ export default function TaskCardMinimal({
         <TaskCardCheckbox
           checked={isCompleted}
           onChange={handleCheckbox}
-          color={priorityColors.dot}
           size="sm"
         />
 
@@ -78,7 +77,7 @@ export default function TaskCardMinimal({
           {/* Title row */}
           <div className="flex items-center gap-2">
             <h3
-              className={`truncate text-sm font-semibold ${
+              className={`truncate text-md font-semibold min-w-[20rem] ${
                 isCompleted ? "text-[var(--muted)] line-through" : "text-[var(--foreground)]"
               }`}
             >

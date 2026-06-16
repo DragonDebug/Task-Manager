@@ -13,7 +13,7 @@ export default function TaskCardCheckbox({
   onChange,
   color = "var(--accent)",
   size = "md",
-  className,
+  className = "",
 }: TaskCardCheckboxProps) {
   const dims = size === "sm" ? "h-4 w-4" : "h-5 w-5";
 
@@ -24,7 +24,6 @@ export default function TaskCardCheckbox({
       aria-checked={checked}
       onClick={() => onChange(!checked)}
       className={`group relative flex shrink-0 items-center justify-center rounded-full border-2 transition-all ${dims} ${className} ${
-
         checked
           ? "border-transparent"
           : "border-[var(--muted)]/40 hover:border-[var(--muted)]/70"

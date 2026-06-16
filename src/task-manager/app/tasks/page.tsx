@@ -5,6 +5,7 @@ import {
   type TaskStatus,
 } from "@/lib/mock-tasks";
 import Link from "next/link";
+import NewTaskButton from "@/components/popup/new-task-button";
 
 const statusBadgeStyles: Record<TaskStatus, string> = {
   Backlog: "bg-[#fef3c7] text-[#92400e]",
@@ -47,9 +48,12 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8">
       <section className="rounded-2xl border border-[#d0d7de] bg-white p-6 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#57606a]">
-          Tasks
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#57606a]">
+            Tasks
+          </p>
+          <NewTaskButton />
+        </div>
         <Link href="/tasks/card-variants" className="text-sm font-semibold text-[#1d4ed8]">
            View card variants
         </Link>
@@ -66,7 +70,7 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
 
           <div className="rounded-lg border border-[#d8dee4] bg-[#f6f8fa] px-4 py-3 text-sm text-[#57606a]">
             {query
-              ? `Showing ${filteredTasks.length} result${filteredTasks.length === 1 ? "" : "s"} for “${query}”.`
+              ? `Showing ${filteredTasks.length} result${filteredTasks.length === 1 ? "" : "s"} for "${query}".`
               : `Showing ${filteredTasks.length} tasks.`}
           </div>
         </div>
@@ -109,7 +113,7 @@ export default async function TasksPage({ searchParams }: TasksPageProps) {
             ))
           ) : (
             <div className="px-6 py-12 text-center text-sm text-[#57606a]">
-              No tasks matched “{query}”. Try a project name, status, or due
+              No tasks matched &ldquo;{query}&rdquo;. Try a project name, status, or due
               window.
             </div>
           )}
