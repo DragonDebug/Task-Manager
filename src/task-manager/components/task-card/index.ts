@@ -6,4 +6,4 @@ export { StatusToggle, PriorityToggle, CategoryToggle } from "./status-priority-
 export { default as ProgressBar } from "./progress-bar";
 export { default as TaskCardCheckbox } from "./task-card-checkbox";
 export { default as TaskCardImage } from "./task-card-image";
-export { PriorityBadge, CategoryBadge, ProjectBadge } from "./task-card-badges";
+export { PriorityBadge, PriorityIcon, PriorityBarsIcon, CriticalDangerIcon, CategoryBadge, ProjectBadge } from "./task-card-badges";

@@ -87,6 +87,20 @@ export function AppearanceIcon(props: SettingsIconProps) {
   );
 }
 
+export function TaskConfigIcon(props: SettingsIconProps) {
+  return baseIcon(
+    props,
+    <>
+      <path d="M4 7h10" />
+      <path d="M4 12h8" />
+      <path d="M4 17h6" />
+      <circle cx="18" cy="7" r="2" />
+      <circle cx="16" cy="12" r="2" />
+      <circle cx="14" cy="17" r="2" />
+    </>,
+  );
+}
+
 export function AdvancedIcon(props: SettingsIconProps) {
   return baseIcon(
     props,
@@ -111,5 +125,6 @@ export const settingsIcons: Record<
   security: SecurityIcon,
   integrations: IntegrationsIcon,
   appearance: AppearanceIcon,
+  "task-config": TaskConfigIcon,
   advanced: AdvancedIcon,
 };

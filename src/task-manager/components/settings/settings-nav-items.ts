@@ -5,7 +5,8 @@ export type SettingsNavIcon =
   | "security"
   | "integrations"
   | "appearance"
-  | "advanced";
+  | "advanced"
+  | "task-config";
 
 export type SettingsNavItem = {
   href: string;
@@ -44,6 +45,12 @@ export const settingsNavItems: readonly SettingsNavItem[] = [
     label: "Integrations",
     description: "Connect the tools your team plans and ships with.",
     icon: "integrations",
+  },
+  {
+    href: "/settings/task-config",
+    label: "Task Config",
+    description: "Customize priorities, statuses, and categories.",
+    icon: "task-config",
   },
   {
     href: "/settings/appearance",

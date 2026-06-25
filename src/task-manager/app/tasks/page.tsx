@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import type { TaskCardData, TaskCategory } from "@/lib/task-card-types";
+import type { TaskCategory } from "@/lib/task-card-types";
 import type { TaskStatus, TaskPriority } from "@/lib/mock-tasks";
 import {
   STATUS_OPTIONS,
   PRIORITY_OPTIONS,
   CATEGORY_OPTIONS,
-  sampleTasks,
 } from "@/lib/task-card-types";
 import {
   TaskCardHorizontal,
@@ -17,6 +16,7 @@ import {
 import NewTaskForm from "@/components/popup/new-task-form";
 import type { NewTaskFormData } from "@/components/popup/new-task-form";
 import TaskDetailsPanel from "./task-details-panel";
+import { useTaskStore, type Task } from "@/lib/task-store";
 
 // ── View types ───────────────────────────────────────────────────────────────
 
@@ -44,10 +44,7 @@ const INITIAL_FILTERS: Filters = {
   category: "",
 };
 
-function applyFilters(
-  tasks: TaskCardData[],
-  filters: Filters,
-): TaskCardData[] {
+function applyFilters(tasks: Task[], filters: Filters): Task[] {
   const query = filters.search.toLowerCase().trim();
 
   return tasks.filter((task) => {
@@ -59,6 +56,8 @@ function applyFilters(
         task.status,
         task.priority,
         task.category,
+        task.assignee,
+        ...(task.tags ?? []),
       ]
         .join(" ")
         .toLowerCase();
@@ -71,33 +70,66 @@ function applyFilters(
   });
 }
 
+// ── Helper: convert NewTaskFormData → Omit<Task, "id"> ──────────────────────
+
+function formDataToTask(data: NewTaskFormData): Omit<Task, "id"> {
+  const today = new Date().toISOString().slice(0, 10);
+  return {
+    title: data.title,
+    description: data.description,
+    notes: data.notes,
+    imageUrl: data.imageUrl || undefined,
+    project: data.project,
+    category: data.category,
+    status: data.status,
+    priority: data.priority,
+    progress: 0,
+    itemCount: 0,
+    logCount: 0,
+    assignee: "",
+    tags: [],
+    subtasks: data.subtasks ?? [],
+    comments: [],
+    createdOn: today,
+    receivedDate: data.receivedDate || "",
+    startedOn: data.startedDate || undefined,
+    completedOn: data.completionDate || undefined,
+    dueOn: data.dueDate || today,
+    emailSubject: data.emailSubject || "",
+    folderPath: data.folderPath || "",
+    senderName: data.senderName || "",
+  };
+}
+
 // ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function TasksPage() {
+  const { tasks, addTask, updateTask } = useTaskStore();
+
   const [view, setView] = useState<CardView>("horizontal");
   const [filters, setFilters] = useState<Filters>(INITIAL_FILTERS);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [showNewTask, setShowNewTask] = useState(false);
 
   const filteredTasks = useMemo(
-    () => applyFilters(sampleTasks, filters),
-    [filters],
+    () => applyFilters(tasks, filters),
+    [tasks, filters],
   );
 
   const selectedTask = useMemo(
-    () => sampleTasks.find((t) => t.id === selectedTaskId) ?? null,
-    [selectedTaskId],
+    () => tasks.find((t) => t.id === selectedTaskId) ?? null,
+    [tasks, selectedTaskId],
   );
 
-  function updateFilter<K extends keyof Filters>(
-    key: K,
-    value: Filters[K],
-  ) {
+  function updateFilter<K extends keyof Filters>(key: K, value: Filters[K]) {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }
 
+  /** Save the new task from the popup form into the global store. */
   function handleNewTaskSubmit(data: NewTaskFormData) {
-    console.log("New task:", data);
+    const created = addTask(formDataToTask(data));
+    // Auto-select the newly created task
+    setSelectedTaskId(created.id);
   }
 
   const hasActiveFilters =
@@ -177,11 +209,7 @@ export default function TasksPage() {
 
       {/* Content: card list + details panel */}
       <div className="flex flex-1 gap-4">
-        <div
-          className={
-            "min-w-0 flex-1" + (selectedTask ? " max-w-[50%]" : "")
-          }
-        >
+        <div className="min-w-0 flex-1 max-w-[50%]">
           {filteredTasks.length === 0 ? (
             <EmptyState />
           ) : (
@@ -194,14 +222,13 @@ export default function TasksPage() {
           )}
         </div>
 
-        {selectedTask && (
-          <div className="w-[50%] min-w-[340px] shrink-0">
-            <TaskDetailsPanel
-              task={selectedTask}
-              onClose={() => setSelectedTaskId(null)}
-            />
-          </div>
-        )}
+        <div className="w-[50%] min-w-[340px] shrink-0">
+          <TaskDetailsPanel
+            task={selectedTask}
+            onClose={() => setSelectedTaskId(null)}
+            onSave={(id, patch) => updateTask(id, patch)}
+          />
+        </div>
       </div>
 
       {/* New Task popup */}
@@ -271,15 +298,17 @@ function CardList({
   selectedId,
   onSelect,
 }: {
-  tasks: TaskCardData[];
+  tasks: Task[];
   view: CardView;
   selectedId: string | null;
   onSelect: (id: string) => void;
 }) {
   function wrap(id: string) {
-    const ring =
-      selectedId === id ? " ring-2 ring-[var(--accent)] rounded-2xl" : "";
-    return "cursor-pointer transition-shadow" + ring;
+    const selected =
+      selectedId === id
+        ? " bg-[var(--accent-soft)] shadow-[0_0_24px_-4px_var(--accent-soft),0_0_0_1px_var(--accent-soft)] rounded-2xl scale-[1.01]"
+        : "";
+    return "cursor-pointer transition-all duration-200" + selected;
   }
 
   if (view === "vertical") {

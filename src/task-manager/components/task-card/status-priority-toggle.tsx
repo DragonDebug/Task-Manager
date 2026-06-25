@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, memo } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, memo } from "react";
+import { createPortal } from "react-dom";
 
 // ── Generic dropdown toggle ──────────────────────────────────────────────────
 
@@ -16,6 +17,7 @@ type StatusPriorityToggleProps<T extends string> = {
   options: ToggleOption<T>[];
   onChange: (value: T) => void;
   className?: string;
+  renderIcon?: (option: ToggleOption<T>) => React.ReactNode;
 };
 
 function StatusPriorityToggleInner<T extends string>({
@@ -24,18 +26,37 @@ function StatusPriorityToggleInner<T extends string>({
   options,
   onChange,
   className = "",
+  renderIcon,
 }: StatusPriorityToggleProps<T>) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0, width: 0 });
 
   const selected = options.find((o) => o.value === value) ?? options[0];
 
-  // Only attach listener when dropdown is open
+  // Position the portal dropdown below the button
+  useLayoutEffect(() => {
+    if (!open || !buttonRef.current) return;
+    const rect = buttonRef.current.getBoundingClientRect();
+    setPos({
+      top: rect.bottom + 4,
+      left: rect.right - Math.max(rect.width, 192),
+      width: Math.max(rect.width, 192),
+    });
+  }, [open]);
+
+  // Close on click outside (check both button and portal dropdown)
   useEffect(() => {
     if (!open) return;
 
     function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        containerRef.current && !containerRef.current.contains(target) &&
+        dropdownRef.current && !dropdownRef.current.contains(target)
+      ) {
         setOpen(false);
       }
     }
@@ -43,9 +64,18 @@ function StatusPriorityToggleInner<T extends string>({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
+  // Close on scroll so dropdown doesn't float detached
+  useEffect(() => {
+    if (!open) return;
+    const handleScroll = () => setOpen(false);
+    window.addEventListener("scroll", handleScroll, true);
+    return () => window.removeEventListener("scroll", handleScroll, true);
+  }, [open]);
+
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         className="flex cursor-pointer items-center min-w-[12rem] gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--surface-elevated)]"
@@ -54,17 +84,25 @@ function StatusPriorityToggleInner<T extends string>({
           {label}
         </span>
         <span className="flex items-center gap-1.5">
-          <span
-            className="inline-block h-2 w-2 rounded-full"
-            style={{ backgroundColor: selected.color }}
-          />
+          {renderIcon ? (
+            renderIcon(selected)
+          ) : (
+            <span
+              className="inline-block h-2 w-2 rounded-full"
+              style={{ backgroundColor: selected.color }}
+            />
+          )}
           <span className="text-[var(--foreground)]">{selected.label}</span>
         </span>
         <ChevronIcon open={open} />
       </button>
 
-      {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 min-w-[12rem] overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] shadow-xl">
+      {open && createPortal(
+        <div
+          ref={dropdownRef}
+          className="fixed z-[9999] min-w-[12rem] overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--surface-elevated)] shadow-xl"
+          style={{ top: pos.top, left: pos.left, width: pos.width }}
+        >
           {options.map((option) => {
             const isActive = option.value === value;
             return (
@@ -81,15 +119,20 @@ function StatusPriorityToggleInner<T extends string>({
                     : "text-[var(--foreground)] hover:bg-[var(--surface)]"
                 }`}
               >
-                <span
-                  className="inline-block h-2 w-2 shrink-0 rounded-full"
-                  style={{ backgroundColor: option.color }}
-                />
+                {renderIcon ? (
+                  renderIcon(option)
+                ) : (
+                  <span
+                    className="inline-block h-2 w-2 shrink-0 rounded-full"
+                    style={{ backgroundColor: option.color }}
+                  />
+                )}
                 {option.label}
               </button>
             );
           })}
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
@@ -132,6 +175,7 @@ import {
   CATEGORY_COLORS,
   CATEGORY_OPTIONS,
 } from "@/lib/task-card-types";
+import { PriorityIcon } from "./task-card-badges";
 
 // Pre-compute option arrays once at module scope so they keep a stable identity
 const STATUS_COLORS: Record<TaskStatus, string> = {
@@ -188,6 +232,10 @@ type PriorityToggleProps = {
   className?: string;
 };
 
+function renderPriorityIcon(option: ToggleOption<TaskPriority>) {
+  return <PriorityIcon priority={option.value} color={option.color} size={12} />;
+}
+
 export function PriorityToggle({ value, onChange, className }: PriorityToggleProps) {
   return (
     <StatusPriorityToggle
@@ -196,6 +244,7 @@ export function PriorityToggle({ value, onChange, className }: PriorityTogglePro
       options={PRIORITY_TOGGLE_OPTIONS}
       onChange={onChange}
       className={className}
+      renderIcon={renderPriorityIcon}
     />
   );
 }
